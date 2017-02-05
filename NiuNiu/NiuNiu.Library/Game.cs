@@ -25,7 +25,12 @@ namespace NiuNiu.Library
             dealer.Shuffle();
             dealer.SplitDeckShuffle();
             dealer.DealCards(players, GameRules.CardsPerHand);
+            FindBestPlayer();
+        }
 
+        private void FindBestPlayer()
+        {
+            IOrderedEnumerable<Player> playersOrderedByHand = players.OrderBy(player => player.CalculateHandValue());
         }
         
         private void AssignNewDealer()

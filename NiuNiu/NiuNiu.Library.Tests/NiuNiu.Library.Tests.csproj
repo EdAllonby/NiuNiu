@@ -54,7 +54,9 @@
     <Compile Include="DealerTests.cs" />
     <Compile Include="DeckTests.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="CardCollectionHelper.cs" />
     <Compile Include="HandTests.cs" />
+    <Compile Include="NiuNiuResultTests.cs" />
     <Compile Include="NiuNiuSolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

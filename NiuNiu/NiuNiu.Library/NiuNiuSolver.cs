@@ -1,35 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NiuNiu.Library
 {
     public class NiuNiuSolver
     {
-        private List<List<int>> results;
+        private List<NiuNiuResult> results;
+        private Hand currentHand;
 
-        public IEnumerable<List<int>> Solve(IEnumerable<int> elements)
+        public NiuNiuResult Solve(Hand hand)
         {
-            results = new List<List<int>>();
-            RecursiveSolve(0, new List<int>(), new List<int>(elements), 0);
-            return results;
+            currentHand = hand;
+            results = new List<NiuNiuResult> { new NiuNiuResult(currentHand) };
+            RecursiveSolve(0, new List<Card>(), hand.Cards, 0);
+            return results.Max();
         }
 
-        private void RecursiveSolve(int currentSum, IReadOnlyCollection<int> included, IReadOnlyList<int> notIncluded, int startIndex)
+        private void RecursiveSolve(int currentSum, IReadOnlyCollection<Card> included, IReadOnlyList<Card> notIncluded, int startIndex)
         {
             for (int index = startIndex; index < notIncluded.Count; index++)
             {
-                int nextValue = notIncluded[index];
-                if ((currentSum + nextValue) % 10 == 0 && included.Count == 2)
+                Card nextCard = notIncluded[index];
+                if ((currentSum + nextCard.FaceValue) % 10 == 0 && included.Count == 2)
                 {
-                    var newResult = new List<int>(included) { nextValue };
-                    results.Add(newResult);
+                    var newResult = new List<Card>(included) { nextCard };
+                    results.Add(new NiuNiuResult(currentHand, newResult));
                 }
                 else if (included.Count < 3)
                 {
-                    var nextIncluded = new List<int>(included) { nextValue };
+                    var nextIncluded = new List<Card>(included) { nextCard };
 
-                    var nextNotIncluded = new List<int>(notIncluded);
-                    nextNotIncluded.Remove(nextValue);
-                    RecursiveSolve(currentSum + nextValue, nextIncluded, nextNotIncluded, startIndex++);
+                    var nextNotIncluded = new List<Card>(notIncluded);
+                    nextNotIncluded.Remove(nextCard);
+                    RecursiveSolve(currentSum + nextCard.FaceValue, nextIncluded, nextNotIncluded, startIndex++);
                 }
             }
         }

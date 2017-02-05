@@ -51,6 +51,7 @@
     <Compile Include="GuidShuffle.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="IShuffler.cs" />
+    <Compile Include="NiuNiuResult.cs" />
     <Compile Include="NiuNiuSolver.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

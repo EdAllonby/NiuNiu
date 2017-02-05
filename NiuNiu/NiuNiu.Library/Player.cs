@@ -2,7 +2,7 @@
 {
     public class Player
     {
-        NiuNiuSolver brain = new NiuNiuSolver();
+        private readonly NiuNiuSolver brain = new NiuNiuSolver();
 
         private readonly Hand hand = new Hand();
 
@@ -13,8 +13,9 @@
 
         public int Money { get; }
 
-        public void CalculateHandValue()
+        public NiuNiuResult CalculateHandValue()
         {
+            return brain.Solve(hand);
         }
 
         public void ReceiveCard(Card card)

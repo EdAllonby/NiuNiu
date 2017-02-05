@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NiuNiu.Library.Tests
 {
@@ -10,9 +8,10 @@ namespace NiuNiu.Library.Tests
         [Test]
         public void NumbersShouldMakeModulus10()
         {
-            var numbers = new List<int> { 3, 10, 7, 3, 4, 1, 9};
+            var hand = CardCollectionHelper.AllRoyalsHand;
+            
             var solver = new NiuNiuSolver();
-            var test = solver.Solve(numbers);
+            var results = solver.Solve(hand);
         }
     }
 }

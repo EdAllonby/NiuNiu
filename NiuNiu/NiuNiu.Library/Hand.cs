@@ -6,6 +6,8 @@ namespace NiuNiu.Library
     {
         private readonly List<Card> cards = new List<Card>();
 
+        public IReadOnlyList<Card> Cards => cards.AsReadOnly();
+
         public void AddCard(Card card)
         {
             cards.Add(card);
