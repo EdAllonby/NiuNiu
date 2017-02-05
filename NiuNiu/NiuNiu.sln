@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiuNiu.Library", "NiuNiu.Library\NiuNiu.Library.csproj", "{7BF884C5-60A1-4F27-8377-484FE5F673ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiuNiu.Library.Tests", "NiuNiu.Library.Tests\NiuNiu.Library.Tests.csproj", "{09B079F9-109F-41DE-B216-19469646F8F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiuNiu.Console", "NiuNiu.Console\NiuNiu.Console.csproj", "{116F48FA-6B39-4304-871C-057BBE48969C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BF884C5-60A1-4F27-8377-484FE5F673ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF884C5-60A1-4F27-8377-484FE5F673ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF884C5-60A1-4F27-8377-484FE5F673ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF884C5-60A1-4F27-8377-484FE5F673ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B079F9-109F-41DE-B216-19469646F8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B079F9-109F-41DE-B216-19469646F8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B079F9-109F-41DE-B216-19469646F8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B079F9-109F-41DE-B216-19469646F8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116F48FA-6B39-4304-871C-057BBE48969C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116F48FA-6B39-4304-871C-057BBE48969C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116F48FA-6B39-4304-871C-057BBE48969C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116F48FA-6B39-4304-871C-057BBE48969C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
