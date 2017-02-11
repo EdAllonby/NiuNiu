@@ -17,16 +17,6 @@ namespace NiuNiu.Library.Tests
         }
 
         [Test]
-        public void TakingCardFromANewDeckWillRemoveACard()
-        {
-            var cardDeck = new Deck();
-
-            cardDeck.TakeCard();
-
-            Assert.AreEqual(cardDeck.RemainingCards, 51);
-        }
-
-        [Test]
         public void ShufflingDeckWillPreserveRemainingCards()
         {
             var cardDeck = new Deck();
@@ -48,6 +38,16 @@ namespace NiuNiu.Library.Tests
             int expectedRemainingCardsInDeck = deckTotal - cards.Count;
 
             Assert.AreEqual(expectedRemainingCardsInDeck, cardDeck.RemainingCards);
+        }
+
+        [Test]
+        public void TakingCardFromANewDeckWillRemoveACard()
+        {
+            var cardDeck = new Deck();
+
+            cardDeck.TakeCard();
+
+            Assert.AreEqual(cardDeck.RemainingCards, 51);
         }
     }
 }

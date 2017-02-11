@@ -3,16 +3,24 @@ using System.Linq;
 
 namespace NiuNiu.Library
 {
-    public class NiuNiuSolver
+    /// <summary>
+    /// Finds the best value from a hand for NiuNiu.
+    /// </summary>
+    public class HandSolver
     {
-        private List<NiuNiuResult> results;
         private Hand currentHand;
+        private List<HandValue> results;
 
-        public NiuNiuResult Solve(Hand hand)
+        /// <summary>
+        /// Gets the best hand value from a hand.
+        /// </summary>
+        /// <param name="hand">The <see cref="Hand" /> to solve.</param>
+        /// <returns></returns>
+        public HandValue Solve(Hand hand)
         {
             currentHand = hand;
-            results = new List<NiuNiuResult> { new NiuNiuResult(currentHand) };
-            RecursiveSolve(0, new List<Card>(), hand.Cards, 0);
+            results = new List<HandValue> { new HandValue(currentHand) };
+            RecursiveSolve(0, new List<Card>(), currentHand.Cards, 0);
             return results.Max();
         }
 
@@ -24,7 +32,7 @@ namespace NiuNiu.Library
                 if ((currentSum + nextCard.FaceValue) % 10 == 0 && included.Count == 2)
                 {
                     var newResult = new List<Card>(included) { nextCard };
-                    results.Add(new NiuNiuResult(currentHand, newResult));
+                    results.Add(new HandValue(currentHand, newResult));
                 }
                 else if (included.Count < 3)
                 {

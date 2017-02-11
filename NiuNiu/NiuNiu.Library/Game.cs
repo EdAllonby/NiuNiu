@@ -3,36 +3,107 @@ using System.Linq;
 
 namespace NiuNiu.Library
 {
+    /// <summary>
+    /// Models a NiuNiu game.
+    /// </summary>
     public sealed class Game
     {
+        private const int DefaultBet = 100;
 
         private readonly List<Player> players = new List<Player>();
         private Dealer dealer;
 
         public Game()
         {
-            const int startingMoney = 1000;
+            const int startingMoney = 1000000;
 
             foreach (int player in Enumerable.Range(0, GameRules.TotalPlayers))
             {
-                players.Add(new Player(startingMoney + player));
+                players.Add(new Player(startingMoney));
             }
+
+            AssignNewDealer();
         }
+
+        public int Round { get; private set; }
+
+        public bool PlayersRemain => players.Count > 1;
 
         public void PlayRound()
         {
-            AssignNewDealer();
+            Round++;
+            RemoveSpentPlayers();
+
+            if (dealer.Money == 0)
+            {
+                AssignNewDealer();
+            }
+
             dealer.Shuffle();
             dealer.SplitDeckShuffle();
             dealer.DealCards(players, GameRules.CardsPerHand);
-            FindBestPlayer();
+            DealMoney();
         }
 
-        private void FindBestPlayer()
+        private void RemoveSpentPlayers()
         {
-            IOrderedEnumerable<Player> playersOrderedByHand = players.OrderBy(player => player.CalculateHandValue());
+            players.RemoveAll(player => player.Money == 0);
         }
-        
+
+        private void DealMoney()
+        {
+            List<Player> playersOrderedByHand = players.OrderByDescending(player => player.HandValue).ToList();
+
+            int dealerRank = playersOrderedByHand.IndexOf(dealer.Player);
+
+            foreach (Player player in playersOrderedByHand)
+            {
+                int playerRank = playersOrderedByHand.IndexOf(player);
+
+                if (playerRank < dealerRank)
+                {
+                    // Player had a better hand than the dealer. Give the correct amount from the dealer's pot.
+                    int multiplier = GetMoneyMultiplier(player);
+                    dealer.GiveMoney(player, DefaultBet * multiplier);
+                }
+                else if (playerRank > dealerRank)
+                {
+                    // The dealer has won. Give money to dealer from losing player.
+                    int multiplier = GetMoneyMultiplier(dealer.Player);
+                    player.GiveMoney(dealer, DefaultBet * multiplier);
+                }
+
+                dealer.TakeHandFromPlayer(player);
+            }
+        }
+
+        private static int GetMoneyMultiplier(Player player)
+        {
+            var multiplier = 1;
+
+            if (!player.HandValue.HasTriple)
+            {
+                return multiplier;
+            }
+
+            if (player.ShowHand.All(card => card.Face >= Face.Jack))
+            {
+                multiplier = 5;
+            }
+
+            if (player.HandValue.HighestSingleCard.Face >= Face.Ten && player.HandValue.HighestSingleCard.Face <= Face.King)
+            {
+                multiplier = 3;
+            }
+
+            if (player.HandValue.HighestSingleCard.Face >= Face.Seven && player.HandValue.HighestSingleCard.Face <= Face.Nine)
+            {
+                multiplier = 2;
+            }
+
+            return multiplier;
+        }
+
         private void AssignNewDealer()
         {
             Player newDealer = dealer == null

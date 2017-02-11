@@ -12,7 +12,7 @@ namespace NiuNiu.Library
     {
         private readonly List<Card> cards = new List<Card>();
         private readonly Random random = new Random();
-        private readonly IShuffler shuffler = new FischerYatesShuffle();
+        private readonly IShuffler shuffler = new GuidShuffle();
 
         /// <summary>
         /// Create a new, unshuffled, deck of cards.
@@ -36,7 +36,7 @@ namespace NiuNiu.Library
         /// <summary>
         /// Takes (and returns) a card from the deck.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The card taken from the deck.</returns>
         public Card TakeCard()
         {
             Card topCard = cards.First();
@@ -80,12 +80,19 @@ namespace NiuNiu.Library
                 cards.Add(card);
             }
         }
-        
+
+        /// <summary>
+        /// Put cards in a hand back on the deck.
+        /// </summary>
+        /// <param name="cardsToAdd">The cards to put back on the deck.</param>
+        public void AddHandToDeck(IEnumerable<Card> cardsToAdd)
+        {
+            cards.AddRange(cardsToAdd);
+        }
+
         public override string ToString()
         {
             return $"Remaining Cards: {RemainingCards}";
         }
-
-
     }
 }

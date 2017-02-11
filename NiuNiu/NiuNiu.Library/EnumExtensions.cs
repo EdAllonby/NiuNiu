@@ -4,11 +4,19 @@ using System.Linq;
 
 namespace NiuNiu.Library
 {
+    /// <summary>
+    /// Extends the enum type.
+    /// </summary>
     public static class EnumExtensions
     {
-        public static IEnumerable<T> GetValues<T>()
+        /// <summary>
+        /// Enumerate all of the values in an enum.
+        /// </summary>
+        /// <typeparam name="TEnumElement">Items in the enum.</typeparam>
+        /// <returns>The enum values</returns>
+        public static IEnumerable<TEnumElement> GetValues<TEnumElement>() where TEnumElement : struct, IConvertible
         {
-            return Enum.GetValues(typeof(T)).Cast<T>();
+            return Enum.GetValues(typeof(TEnumElement)).Cast<TEnumElement>();
         }
     }
 }

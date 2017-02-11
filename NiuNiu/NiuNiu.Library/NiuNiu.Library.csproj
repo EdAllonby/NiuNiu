@@ -40,19 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bank.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="ComparableExtensions.cs" />
     <Compile Include="Dealer.cs" />
     <Compile Include="Deck.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="FischerYatesShuffle.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameRules.cs" />
     <Compile Include="GuidShuffle.cs" />
     <Compile Include="Hand.cs" />
+    <Compile Include="IMoneyGiver.cs" />
     <Compile Include="IShuffler.cs" />
-    <Compile Include="NiuNiuResult.cs" />
-    <Compile Include="NiuNiuSolver.cs" />
+    <Compile Include="HandValue.cs" />
+    <Compile Include="HandSolver.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suit.cs" />

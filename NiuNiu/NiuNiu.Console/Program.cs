@@ -2,12 +2,18 @@
 
 namespace NiuNiu.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var niuniu = new Game();
-            niuniu.PlayRound();
+            while (niuniu.PlayersRemain)
+            {
+                niuniu.PlayRound();
+            }
+
+            int totalRounds = niuniu.Round;
+            System.Console.WriteLine($"Total rounds played: {totalRounds}");
         }
     }
 }

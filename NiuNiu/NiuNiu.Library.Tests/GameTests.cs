@@ -1,6 +1,6 @@
 ﻿namespace NiuNiu.Library.Tests
 {
-    class GameTests
+    internal class GameTests
     {
     }
 }

@@ -8,10 +8,10 @@ namespace NiuNiu.Library.Tests
         [Test]
         public void NumbersShouldMakeModulus10()
         {
-            var hand = CardCollectionHelper.AllRoyalsHand;
-            
-            var solver = new NiuNiuSolver();
-            var results = solver.Solve(hand);
+            Hand hand = CardCollectionHelper.AllRoyalsHand;
+
+            var solver = new HandSolver();
+            HandValue values = solver.Solve(hand);
         }
     }
 }

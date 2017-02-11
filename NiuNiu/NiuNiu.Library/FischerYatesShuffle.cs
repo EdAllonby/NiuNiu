@@ -15,13 +15,13 @@ namespace NiuNiu.Library
         /// </summary>
         /// <typeparam name="T">Array element type.</typeparam>
         /// <param name="array">Array to shuffle.</param>
-        public  void Shuffle<T>(List<T> array)
+        public void Shuffle<T>(List<T> array)
         {
             int n = array.Count;
             for (var index = 0; index < n; index++)
             {
                 // NextDouble returns a random number between 0 and 1.
-                int randomClampedNumber = index + (int)(Random.NextDouble() * (n - index));
+                int randomClampedNumber = index + (int) (Random.NextDouble() * (n - index));
                 T element = array[randomClampedNumber];
                 array[randomClampedNumber] = array[index];
                 array[index] = element;

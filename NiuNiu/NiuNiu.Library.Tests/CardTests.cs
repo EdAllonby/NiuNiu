@@ -5,6 +5,16 @@ namespace NiuNiu.Library.Tests
     [TestFixture]
     public class CardTests
     {
+        [TestCase(Face.Jack, ExpectedResult = 10)]
+        [TestCase(Face.Queen, ExpectedResult = 10)]
+        [TestCase(Face.King, ExpectedResult = 10)]
+        public int RoyalCardsAreConsideredAValueOf10(Face cardFace)
+        {
+            var card = new Card(Suit.Hearts, cardFace);
+
+            return card.FaceValue;
+        }
+
         [Test]
         public void CardCanHaveASuit()
         {
@@ -25,26 +35,13 @@ namespace NiuNiu.Library.Tests
             Assert.AreEqual(expectedValue, card.Face);
         }
 
-        [TestCase(Face.Jack, ExpectedResult = 10)]
-        [TestCase(Face.Queen, ExpectedResult = 10)]
-        [TestCase(Face.King, ExpectedResult = 10)]
-        public int RoyalCardsAreConsideredAValueOf10(Face cardFace)
-        {
-            var card = new Card(Suit.Hearts, cardFace);
-
-            return card.FaceValue;
-        }
-
         [Test]
-        public void TwoCardsWithSameFaceAndSuitShouldBeEqual()
+        public void KingssAreHigherValueThanQueens()
         {
-            const Suit suit = Suit.Clubs;
-            const Face face = Face.Four;
+            var firstCard = new Card(Suit.Hearts, Face.King);
+            var secondCard = new Card(Suit.Spades, Face.Queen);
 
-            var firstCard = new Card(suit, face);
-            var secondCard = new Card(suit, face);
-
-            Assert.AreEqual(firstCard,secondCard);
+            Assert.Greater(firstCard, secondCard);
         }
 
         [Test]
@@ -57,12 +54,15 @@ namespace NiuNiu.Library.Tests
         }
 
         [Test]
-        public void KingssAreHigherValueThanQueens()
+        public void TwoCardsWithSameFaceAndSuitShouldBeEqual()
         {
-            var firstCard = new Card(Suit.Hearts, Face.King);
-            var secondCard = new Card(Suit.Spades, Face.Queen);
+            const Suit suit = Suit.Clubs;
+            const Face face = Face.Four;
 
-            Assert.Greater(firstCard, secondCard);
+            var firstCard = new Card(suit, face);
+            var secondCard = new Card(suit, face);
+
+            Assert.AreEqual(firstCard, secondCard);
         }
     }
 }

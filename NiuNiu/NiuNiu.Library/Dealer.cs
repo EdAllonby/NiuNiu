@@ -6,8 +6,9 @@ namespace NiuNiu.Library
     /// <summary>
     /// A dealer controls the flow of the deck for the current game.
     /// </summary>
-    public class Dealer
+    public class Dealer : IMoneyReceiver
     {
+        private readonly Bank bank;
         private readonly Deck deck;
         private List<Card> splitTopHalfOfDeck;
 
@@ -15,11 +16,30 @@ namespace NiuNiu.Library
         {
             deck = new Deck();
             Player = player;
+            bank = player.Bank;
         }
 
         public bool HasSplitDeck => splitTopHalfOfDeck != null && splitTopHalfOfDeck.Any();
 
         public Player Player { get; }
+
+        public int Money => bank.Balance;
+
+        public void ReceiveMoney(int amount)
+        {
+            bank.Deposit(amount);
+        }
+
+        public void GiveMoney(IMoneyReceiver player, int amount)
+        {
+            bank.Withdraw(player, amount);
+        }
+
+        public void TakeHandFromPlayer(Player player)
+        {
+            IEnumerable<Card> playerHand = player.ReturnAllCardsInHand();
+            deck.AddHandToDeck(playerHand);
+        }
 
         public void SplitDeck()
         {

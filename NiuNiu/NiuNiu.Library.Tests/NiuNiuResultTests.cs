@@ -10,9 +10,9 @@ namespace NiuNiu.Library.Tests
         {
             Hand hand = CardCollectionHelper.AllRoyalsHand;
 
-            var niuNiuResult = new NiuNiuResult(hand, CardCollectionHelper.AllRoyalsTriple);
+            var niuNiuResult = new HandValue(hand, CardCollectionHelper.AllRoyalsTriple);
 
-            Assert.AreEqual(new Card(Suit.Hearts, Face.King), niuNiuResult.HighestSingleCard);
+            Assert.AreEqual(new Card(Suit.Spades, Face.King), niuNiuResult.HighestSingleCard);
         }
     }
 }

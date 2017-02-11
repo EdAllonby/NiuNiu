@@ -8,14 +8,19 @@ namespace NiuNiu.Library
 
         public IReadOnlyList<Card> Cards => cards.AsReadOnly();
 
+        /// <summary>
+        /// Total cards in this hand.
+        /// </summary>
+        public int TotalCards => cards.Count;
+
         public void AddCard(Card card)
         {
             cards.Add(card);
         }
 
-        /// <summary>
-        /// Total cards in this hand.
-        /// </summary>
-        public int TotalCards => cards.Count;
+        public void EmptyHand()
+        {
+            cards.Clear();
+        }
     }
 }
