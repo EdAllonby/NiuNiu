@@ -7,21 +7,21 @@ namespace NiuNiu.Library
     /// </summary>
     public class Card : IEquatable<Card>, IComparable<Card>, IComparable
     {
-        public Card(Suit cardSuit, Face cardFace)
+        public Card(Face face, Suit suit)
         {
-            Suit = cardSuit;
-            Face = cardFace;
+            Face = face;
+            Suit = suit;
         }
-
-        /// <summary>
-        /// The suit of the playing card.
-        /// </summary>
-        public Suit Suit { get; }
 
         /// <summary>
         /// The face of the playing card.
         /// </summary>
         public Face Face { get; }
+
+        /// <summary>
+        /// The suit of the playing card.
+        /// </summary>
+        public Suit Suit { get; }
 
         /// <summary>
         /// The value of the card face.

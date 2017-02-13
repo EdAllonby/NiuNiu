@@ -9,7 +9,7 @@ namespace NiuNiu.Library.Tests
         public void AddingCardToHandIncreasesTotal()
         {
             var hand = new Hand();
-            hand.AddCard(new Card(Suit.Clubs, Face.King));
+            hand.AddCard(new Card(Face.King, Suit.Clubs));
             Assert.AreEqual(hand.TotalCards, 1);
         }
     }

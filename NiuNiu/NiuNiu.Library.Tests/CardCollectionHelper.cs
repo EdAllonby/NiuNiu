@@ -9,15 +9,15 @@ namespace NiuNiu.Library.Tests
             get
             {
                 var hand = new Hand();
-                hand.AddCard(new Card(Suit.Clubs, Face.King));
-                hand.AddCard(new Card(Suit.Spades, Face.King));
-                hand.AddCard(new Card(Suit.Clubs, Face.Queen));
-                hand.AddCard(new Card(Suit.Hearts, Face.King));
-                hand.AddCard(new Card(Suit.Diamonds, Face.King));
+                hand.AddCard(new Card(Face.King, Suit.Clubs));
+                hand.AddCard(new Card(Face.King, Suit.Spades));
+                hand.AddCard(new Card(Face.Queen, Suit.Clubs));
+                hand.AddCard(new Card(Face.King, Suit.Hearts));
+                hand.AddCard(new Card(Face.King, Suit.Diamonds));
                 return hand;
             }
         }
 
-        public static IEnumerable<Card> AllRoyalsTriple => new List<Card> { new Card(Suit.Clubs, Face.King), new Card(Suit.Spades, Face.King), new Card(Suit.Diamonds, Face.King) };
+        public static IEnumerable<Card> AllRoyalsTriple => new List<Card> { new Card(Face.King, Suit.Clubs), new Card(Face.King, Suit.Spades), new Card(Face.King, Suit.Diamonds) };
     }
 }

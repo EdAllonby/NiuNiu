@@ -23,7 +23,7 @@ namespace NiuNiu.Library
             {
                 foreach (Face face in EnumExtensions.GetValues<Face>())
                 {
-                    cards.Add(new Card(suit, face));
+                    cards.Add(new Card(face, suit));
                 }
             }
         }
