@@ -8,7 +8,7 @@ namespace NiuNiu.Library.Tests
         [Test]
         public void DealerCanSplitDeck()
         {
-            var dealer = new Dealer(new Player(1000));
+            var dealer = new Dealer(new Player("Steve", 1000));
             dealer.SplitDeck();
 
             Assert.IsTrue(dealer.HasSplitDeck);
@@ -17,7 +17,7 @@ namespace NiuNiu.Library.Tests
         [Test]
         public void PuttingSplitBackOntoDeckRemovesDealerSplit()
         {
-            var dealer = new Dealer(new Player(1000));
+            var dealer = new Dealer(new Player("Steve", 1000));
             dealer.SplitDeck();
             dealer.PutSplitTopHalfOnBottomOfDeck();
             Assert.IsFalse(dealer.HasSplitDeck);

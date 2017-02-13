@@ -8,46 +8,72 @@ namespace NiuNiu.Library
     /// </summary>
     public sealed class Game
     {
-        private const int DefaultBet = 100;
-
-        private readonly List<Player> players = new List<Player>();
+        private readonly List<Player> players;
+        private readonly Pot pot = new Pot();
         private Dealer dealer;
 
-        public Game()
+        public Game(List<Player> players)
         {
-            const int startingMoney = 1000000;
-
-            foreach (int player in Enumerable.Range(0, GameRules.TotalPlayers))
-            {
-                players.Add(new Player(startingMoney));
-            }
-
+            this.players = players;
             AssignNewDealer();
         }
 
+        /// <summary>
+        /// Total rounds played in this game.
+        /// </summary>
         public int Round { get; private set; }
 
-        public bool PlayersRemain => players.Count > 1;
+        /// <summary>
+        /// If players still remain in this game.
+        /// </summary>
+        public bool IsInProgress => players.Count > 1;
 
+        /// <summary>
+        /// Play a round of NiuNiu.
+        /// </summary>
         public void PlayRound()
         {
             Round++;
-            RemoveSpentPlayers();
 
-            if (dealer.Money == 0)
+            dealer.Shuffle();
+            dealer.SplitDeckShuffle();
+            PlaceBets();
+            dealer.DealCards(players, GameRules.CardsPerHand);
+            DealMoney();
+
+            if (!pot.HasMoney)
             {
                 AssignNewDealer();
             }
 
-            dealer.Shuffle();
-            dealer.SplitDeckShuffle();
-            dealer.DealCards(players, GameRules.CardsPerHand);
-            DealMoney();
+            if (dealer.Player.ShouldTakePot(pot.Value))
+            {
+                pot.GiveToDealer(dealer);
+                AssignNewDealer();
+            }
+
+            RemoveSpentPlayers();
+
+            if (!IsInProgress)
+            {
+                // Final round, no more players left. Dealer gets the pot.
+                pot.GiveToDealer(dealer);
+            }
+        }
+
+        private void PlaceBets()
+        {
+            // The current dealer doesn't place a bet, as they created the pot with an initial bet.
+            foreach (Player player in players.Where(player => dealer.Player != player))
+            {
+                player.PlaceBet(pot);
+            }
         }
 
         private void RemoveSpentPlayers()
         {
-            players.RemoveAll(player => player.Money == 0);
+            // Don't try to remove the dealer, as they might win some money at the end of the round.
+            players.RemoveAll(player => player.Money == 0 && dealer.Player != player);
         }
 
         private void DealMoney()
@@ -62,15 +88,15 @@ namespace NiuNiu.Library
 
                 if (playerRank < dealerRank)
                 {
-                    // Player had a better hand than the dealer. Give the correct amount from the dealer's pot.
+                    // Player had a better hand than the dealer. Give the correct amount from the current pot.
                     int multiplier = GetMoneyMultiplier(player);
-                    dealer.GiveMoney(player, DefaultBet * multiplier);
+                    pot.GiveMoney(player, player.LastBet * multiplier);
                 }
                 else if (playerRank > dealerRank)
                 {
-                    // The dealer has won. Give money to dealer from losing player.
+                    // The dealer has won. Add money to the pot from losing player.
                     int multiplier = GetMoneyMultiplier(dealer.Player);
-                    player.GiveMoney(dealer, DefaultBet * multiplier);
+                    player.GiveMoney(pot, player.LastBet * multiplier);
                 }
 
                 dealer.TakeHandFromPlayer(player);
@@ -111,6 +137,7 @@ namespace NiuNiu.Library
                 : players.NextInLoop(dealer.Player); // Otherwise, go around the table to the next player.
 
             dealer = new Dealer(newDealer);
+            dealer.GiveMoney(pot, GameRules.PotSize);
         }
     }
 }

@@ -23,16 +23,14 @@ namespace NiuNiu.Library
 
         public Player Player { get; }
 
-        public int Money => bank.Balance;
-
         public void ReceiveMoney(int amount)
         {
             bank.Deposit(amount);
         }
 
-        public void GiveMoney(IMoneyReceiver player, int amount)
+        public void GiveMoney(IMoneyReceiver receiver, int amount)
         {
-            bank.Withdraw(player, amount);
+            bank.Withdraw(receiver, amount);
         }
 
         public void TakeHandFromPlayer(Player player)

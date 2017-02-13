@@ -15,6 +15,13 @@ namespace NiuNiu.Library
         }
 
         /// <summary>
+        /// Create a bank with no initial value.
+        /// </summary>
+        public Bank() : this(0)
+        {
+        }
+
+        /// <summary>
         /// The current balance of the bank.
         /// </summary>
         public int Balance { get; private set; }

@@ -10,16 +10,24 @@ namespace NiuNiu.Library
     {
         private readonly HandSolver brain = new HandSolver();
 
+        private readonly IGamblingStrategy gamblingStrategy = new DefaultGamblingStrategy();
+
         private readonly Hand hand = new Hand();
 
         /// <summary>
         /// Creates a new NiuNiu player with some money.
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="money"></param>
-        public Player(int money)
+        public Player(string name, int money)
         {
+            Name = name;
             Bank = new Bank(money);
         }
+
+        public string Name { get; set; }
+
+        public int LastBet { get; private set; }
 
         /// <summary>
         /// The money the player has.
@@ -44,7 +52,7 @@ namespace NiuNiu.Library
         /// <summary>
         /// Receive money.
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">The amount to receive.</param>
         public void ReceiveMoney(int amount)
         {
             Bank.Deposit(amount);
@@ -69,6 +77,18 @@ namespace NiuNiu.Library
             hand.AddCard(card);
         }
 
+        public bool ShouldTakePot(int potValue)
+        {
+            return gamblingStrategy.ShouldTakePot(potValue);
+        }
+
+        public void PlaceBet(Pot pot)
+        {
+            int currentBet = gamblingStrategy.CurrentBet;
+            LastBet = currentBet;
+            GiveMoney(pot, currentBet);
+        }
+
         /// <summary>
         /// Give back all of the cards in the player's hand.
         /// </summary>
@@ -82,7 +102,7 @@ namespace NiuNiu.Library
 
         public override string ToString()
         {
-            return $"Player has {Bank.Balance} money available in this game.";
+            return $"{Name} has {Bank.Balance} money available in this game.";
         }
     }
 }

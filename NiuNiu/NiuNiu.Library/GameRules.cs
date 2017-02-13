@@ -14,5 +14,10 @@
         /// The amount of cards to deal per player's hand.
         /// </summary>
         public const int CardsPerHand = 5;
+
+        /// <summary>
+        /// The size of a pot.
+        /// </summary>
+        public const int PotSize = 100;
     }
 }

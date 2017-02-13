@@ -1,4 +1,5 @@
-﻿using NiuNiu.Library;
+﻿using System.Collections.Generic;
+using NiuNiu.Library;
 
 namespace NiuNiu.Console
 {
@@ -6,13 +7,19 @@ namespace NiuNiu.Console
     {
         private static void Main(string[] args)
         {
-            var niuniu = new Game();
-            while (niuniu.PlayersRemain)
+            const int startingMoney = 1000;
+
+            var players = new List<Player> { new Player("Ed", startingMoney), new Player("Nige", startingMoney), new Player("Steve", startingMoney), new Player("John", startingMoney) };
+
+            var niuniu = new Game(players);
+
+            while (niuniu.IsInProgress)
             {
                 niuniu.PlayRound();
             }
 
             int totalRounds = niuniu.Round;
+
             System.Console.WriteLine($"Total rounds played: {totalRounds}");
         }
     }
