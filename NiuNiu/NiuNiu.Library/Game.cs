@@ -46,7 +46,7 @@ namespace NiuNiu.Library
                 AssignNewDealer();
             }
 
-            if (dealer.Player.ShouldTakePot(pot.Value))
+            if (CanDealerTakePot() && dealer.ShouldTakePot(pot.Value))
             {
                 pot.GiveToDealer(dealer);
                 AssignNewDealer();
@@ -59,6 +59,12 @@ namespace NiuNiu.Library
                 // Final round, no more players left. Dealer gets the pot.
                 pot.GiveToDealer(dealer);
             }
+        }
+
+        private bool CanDealerTakePot()
+        {
+            // In NiuNiu, the dealer must have dealt at least 3 times before being able to take the pot.
+            return dealer.TimesDealt >= 3;
         }
 
         private void PlaceBets()

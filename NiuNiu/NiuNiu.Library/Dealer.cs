@@ -23,9 +23,24 @@ namespace NiuNiu.Library
 
         public Player Player { get; }
 
+        /// <summary>
+        /// Number of times the dealer has dealt cards.
+        /// </summary>
+        public int TimesDealt { get; private set; }
+
         public void ReceiveMoney(int amount)
         {
             bank.Deposit(amount);
+        }
+
+        /// <summary>
+        /// Whether the dealer should take the current pot.
+        /// </summary>
+        /// <param name="potValue">The current pot value.</param>
+        /// <returns>Whether the dealer should take the pot.</returns>
+        public bool ShouldTakePot(int potValue)
+        {
+            return Player.ShouldTakePot(potValue);
         }
 
         public void GiveMoney(IMoneyReceiver receiver, int amount)
@@ -46,6 +61,8 @@ namespace NiuNiu.Library
 
         public void DealCards(List<Player> players, int cardsPerPlayer)
         {
+            TimesDealt++;
+
             Player firstPlayer = GetFirstPlayer(players);
 
             foreach (Player player in players.Cycle(firstPlayer).Take(cardsPerPlayer * players.Count))

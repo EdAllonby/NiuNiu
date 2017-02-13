@@ -3,7 +3,7 @@
 namespace NiuNiu.Library
 {
     /// <summary>
-    /// A card holds a combination of a suit and face. It is comparable to other cards.
+    /// A card holds a combination of a face and suit. It is comparable to other cards.
     /// </summary>
     public class Card : IEquatable<Card>, IComparable<Card>, IComparable
     {
