@@ -41,6 +41,9 @@
     <Compile Include="Deck.cs" />
     <Compile Include="DefaultGamblingStrategy.cs" />
     <Compile Include="IGamblingStrategy.cs" />
+    <Compile Include="IMoneyGiver.cs" />
+    <Compile Include="IPayout.cs" />
+    <Compile Include="IPayoutValue.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="FischerYatesShuffle.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="IShuffler.cs" />
     <Compile Include="HandValue.cs" />
     <Compile Include="HandSolver.cs" />
+    <Compile Include="StandardPayout.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Pot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

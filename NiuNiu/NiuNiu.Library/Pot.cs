@@ -1,12 +1,17 @@
 ﻿namespace NiuNiu.Library
 {
-    public class Pot : IMoneyReceiver
+    public class Pot : IMoneyReceiver, IMoneyGiver
     {
         private readonly Bank pot = new Bank();
 
         public bool HasMoney => pot.Balance > 0;
 
         public int Value => pot.Balance;
+
+        public void GiveMoney(IMoneyReceiver player, int amount)
+        {
+            pot.Withdraw(player, amount);
+        }
 
         public void ReceiveMoney(int bet)
         {
@@ -16,11 +21,6 @@
         public void GiveToDealer(Dealer dealer)
         {
             GiveMoney(dealer.Player, pot.Balance);
-        }
-
-        public void GiveMoney(IMoneyReceiver player, int amount)
-        {
-            pot.Withdraw(player, amount);
         }
     }
 }

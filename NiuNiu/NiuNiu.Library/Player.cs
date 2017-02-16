@@ -6,7 +6,7 @@ namespace NiuNiu.Library
     /// <summary>
     /// A player of NiuNiu.
     /// </summary>
-    public class Player : IMoneyReceiver
+    public class Player : IMoneyReceiver, IMoneyGiver
     {
         private readonly HandSolver brain = new HandSolver();
 
@@ -50,15 +50,6 @@ namespace NiuNiu.Library
         public IEnumerable<Card> ShowHand => hand.Cards;
 
         /// <summary>
-        /// Receive money.
-        /// </summary>
-        /// <param name="amount">The amount to receive.</param>
-        public void ReceiveMoney(int amount)
-        {
-            Bank.Deposit(amount);
-        }
-
-        /// <summary>
         /// Give money to a receiver.
         /// </summary>
         /// <param name="receiver">The receiver to give money to.</param>
@@ -66,6 +57,15 @@ namespace NiuNiu.Library
         public void GiveMoney(IMoneyReceiver receiver, int amount)
         {
             Bank.Withdraw(receiver, amount);
+        }
+
+        /// <summary>
+        /// Receive money.
+        /// </summary>
+        /// <param name="amount">The amount to receive.</param>
+        public void ReceiveMoney(int amount)
+        {
+            Bank.Deposit(amount);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace NiuNiu.Library.Tests
 
             var niuNiuResult = new HandValue(hand, CardCollectionHelper.AllRoyalsTriple);
 
-            Assert.AreEqual(new Card(Face.King, Suit.Spades), niuNiuResult.HighestSingleCard);
+            Assert.AreEqual(Face.King, niuNiuResult.HighestCardFace);
         }
     }
 }

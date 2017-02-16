@@ -6,7 +6,7 @@ namespace NiuNiu.Library
     /// <summary>
     /// A dealer controls the flow of the deck for the current game.
     /// </summary>
-    public class Dealer : IMoneyReceiver
+    public class Dealer : IMoneyReceiver, IMoneyGiver
     {
         private readonly Bank bank;
         private readonly Deck deck;
@@ -28,6 +28,11 @@ namespace NiuNiu.Library
         /// </summary>
         public int TimesDealt { get; private set; }
 
+        public void GiveMoney(IMoneyReceiver receiver, int amount)
+        {
+            bank.Withdraw(receiver, amount);
+        }
+
         public void ReceiveMoney(int amount)
         {
             bank.Deposit(amount);
@@ -41,11 +46,6 @@ namespace NiuNiu.Library
         public bool ShouldTakePot(int potValue)
         {
             return Player.ShouldTakePot(potValue);
-        }
-
-        public void GiveMoney(IMoneyReceiver receiver, int amount)
-        {
-            bank.Withdraw(receiver, amount);
         }
 
         public void TakeHandFromPlayer(Player player)

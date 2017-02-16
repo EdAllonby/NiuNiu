@@ -8,6 +8,7 @@ namespace NiuNiu.Library
     /// </summary>
     public sealed class Game
     {
+        private readonly IPayout payout = new StandardPayout();
         private readonly List<Player> players;
         private readonly Pot pot = new Pot();
         private Dealer dealer;
@@ -95,45 +96,16 @@ namespace NiuNiu.Library
                 if (playerRank < dealerRank)
                 {
                     // Player had a better hand than the dealer. Give the correct amount from the current pot.
-                    int multiplier = GetMoneyMultiplier(player);
-                    pot.GiveMoney(player, player.LastBet * multiplier);
+                    payout.Payout(player.HandValue, player.LastBet, pot, player);
                 }
                 else if (playerRank > dealerRank)
                 {
                     // The dealer has won. Add money to the pot from losing player.
-                    int multiplier = GetMoneyMultiplier(dealer.Player);
-                    player.GiveMoney(pot, player.LastBet * multiplier);
+                    payout.Payout(dealer.Player.HandValue, player.LastBet, player, pot);
                 }
 
                 dealer.TakeHandFromPlayer(player);
             }
-        }
-
-        private static int GetMoneyMultiplier(Player player)
-        {
-            var multiplier = 1;
-
-            if (!player.HandValue.HasTriple)
-            {
-                return multiplier;
-            }
-
-            if (player.ShowHand.All(card => card.Face >= Face.Jack))
-            {
-                multiplier = 5;
-            }
-
-            if (player.HandValue.HighestSingleCard.Face >= Face.Ten && player.HandValue.HighestSingleCard.Face <= Face.King)
-            {
-                multiplier = 3;
-            }
-
-            if (player.HandValue.HighestSingleCard.Face >= Face.Seven && player.HandValue.HighestSingleCard.Face <= Face.Nine)
-            {
-                multiplier = 2;
-            }
-
-            return multiplier;
         }
 
         private void AssignNewDealer()

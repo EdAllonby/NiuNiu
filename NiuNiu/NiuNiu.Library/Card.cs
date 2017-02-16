@@ -40,6 +40,11 @@ namespace NiuNiu.Library
             }
         }
 
+        /// <summary>
+        /// Is this card a 'royal' face card.
+        /// </summary>
+        public bool IsFaceCard => Face >= Face.Jack;
+
         public int CompareTo(object other)
         {
             var card = other as Card;

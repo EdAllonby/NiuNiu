@@ -7,7 +7,7 @@ namespace NiuNiu.Library
     /// <summary>
     /// Used to store a hand's result.
     /// </summary>
-    public sealed class HandValue : IComparable<HandValue>, IComparable
+    public sealed class HandValue : IPayoutValue, IComparable<HandValue>, IComparable
     {
         private readonly Hand hand;
         private readonly IEnumerable<Card> handTriple;
@@ -34,7 +34,7 @@ namespace NiuNiu.Library
         /// <summary>
         /// The highest ranked card in the hand.
         /// </summary>
-        public Card HighestSingleCard => hand.Cards.Max();
+        private Card HighestCard => hand.Cards.Max();
 
         /// <summary>
         /// The sum of the two cards outside the triple, where it's wrapped around modulus 10.
@@ -53,11 +53,6 @@ namespace NiuNiu.Library
                 return sum == 0 ? 10 : sum; // equaling modulo 10 is the best score (for example, 2 kings (10+10) equals 10, not 0).
             }
         }
-
-        /// <summary>
-        /// Returns if the result has a triple.
-        /// </summary>
-        public bool HasTriple => handTriple != null && handTriple.Count() == 3;
 
         public int CompareTo(object other)
         {
@@ -81,23 +76,35 @@ namespace NiuNiu.Library
             if (!HasTriple && other.HasTriple) return -1;
 
             // If neither hand has a triple, then whoever has the highest single card wins.
-            if (!HasTriple && !other.HasTriple) return HighestSingleCard.CompareTo(other.HighestSingleCard);
+            if (!HasTriple && !other.HasTriple) return HighestCard.CompareTo(other.HighestCard);
 
             // At this point, both hands have a triple. If the double card sum is the same, we compare against their highest card.
             if (DoubleCardSum.CompareTo(other.DoubleCardSum) == 0)
             {
-                return HighestSingleCard.CompareTo(other.HighestSingleCard);
+                return HighestCard.CompareTo(other.HighestCard);
             }
 
-            // At this point , both hands have a triple. If someone has a higher double card sum, their hand is automatically better.
+            // At this point, both hands have a triple. If someone has a higher double card sum, their hand is automatically better.
             return DoubleCardSum.CompareTo(other.DoubleCardSum);
         }
+
+        /// <summary>
+        /// The face of the highest card.
+        /// </summary>
+        public Face HighestCardFace => HighestCard.Face;
+
+        /// <summary>
+        /// Returns if the result has a triple.
+        /// </summary>
+        public bool HasTriple => handTriple != null && handTriple.Count() == 3;
+
+        public bool IsUltimate => hand.Cards.All(x => x.IsFaceCard);
 
         public override string ToString()
         {
             return HasTriple
-                ? $"Result has a triple, double card sum is {DoubleCardSum}, highest single card is {HighestSingleCard}"
-                : $"Result does not have a triple, highest single card is {HighestSingleCard}";
+                ? $"Result has a triple, double card sum is {DoubleCardSum}, highest single card is {HighestCard}"
+                : $"Result does not have a triple, highest single card is {HighestCard}";
         }
 
         private IEnumerable<Card> CardsOutsideTriple()
