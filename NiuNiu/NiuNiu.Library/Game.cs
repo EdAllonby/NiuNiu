@@ -71,7 +71,7 @@ namespace NiuNiu.Library
         private void PlaceBets()
         {
             // The current dealer doesn't place a bet, as they created the pot with an initial bet.
-            foreach (Player player in players.Where(player => dealer.Player != player))
+            foreach (Player player in players.Where(player => !player.Equals(dealer)))
             {
                 player.PlaceBet(pot);
             }
@@ -80,14 +80,14 @@ namespace NiuNiu.Library
         private void RemoveSpentPlayers()
         {
             // Don't try to remove the dealer, as they might win some money at the end of the round.
-            players.RemoveAll(player => player.Money == 0 && dealer.Player != player);
+            players.RemoveAll(player => player.Money == 0 && !player.Equals(dealer));
         }
 
         private void DealMoney()
         {
             List<Player> playersOrderedByHand = players.OrderByDescending(player => player.HandValue).ToList();
 
-            int dealerRank = playersOrderedByHand.IndexOf(dealer.Player);
+            int dealerRank = playersOrderedByHand.IndexOf(dealer);
 
             foreach (Player player in playersOrderedByHand)
             {
@@ -101,7 +101,7 @@ namespace NiuNiu.Library
                 else if (playerRank > dealerRank)
                 {
                     // The dealer has won. Add money to the pot from losing player.
-                    payout.Payout(dealer.Player.HandValue, player.LastBet, player, pot);
+                    payout.Payout(dealer.HandValue, player.LastBet, player, pot);
                 }
 
                 dealer.TakeHandFromPlayer(player);
@@ -112,7 +112,7 @@ namespace NiuNiu.Library
         {
             Player newDealer = dealer == null
                 ? players.PickRandom() // If this is a new game, we'll start with a random dealer
-                : players.NextInLoop(dealer.Player); // Otherwise, go around the table to the next player.
+                : players.NextInLoop(dealer); // Otherwise, go around the table to the next player.
 
             dealer = new Dealer(newDealer);
             dealer.GiveMoney(pot, GameRules.PotSize);

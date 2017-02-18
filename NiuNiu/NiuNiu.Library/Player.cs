@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NiuNiu.Library
@@ -6,8 +7,9 @@ namespace NiuNiu.Library
     /// <summary>
     /// A player of NiuNiu.
     /// </summary>
-    public class Player : IMoneyReceiver, IMoneyGiver
+    public class Player : IMoneyReceiver, IMoneyGiver, IEquatable<Player>
     {
+        private static int nextId = 1;
         private readonly HandSolver brain = new HandSolver();
 
         private readonly IGamblingStrategy gamblingStrategy;
@@ -22,10 +24,29 @@ namespace NiuNiu.Library
         /// <param name="strategy">The gambling strategy this player should use.</param>
         public Player(string name, int money, IGamblingStrategy strategy)
         {
+            Id = nextId;
+            nextId++;
             Name = name;
             Bank = new Bank(money);
             gamblingStrategy = strategy;
         }
+
+        /// <summary>
+        /// Copy a player, which preserves the original Id for equality.
+        /// </summary>
+        /// <param name="player">The player to copy.</param>
+        protected Player(Player player)
+        {
+            Id = player.Id;
+            Name = player.Name;
+            Bank = player.Bank;
+            gamblingStrategy = player.gamblingStrategy;
+        }
+
+        /// <summary>
+        /// Internally used to find equality in player entities.
+        /// </summary>
+        private int Id { get; }
 
         private string Name { get; }
 
@@ -34,7 +55,7 @@ namespace NiuNiu.Library
         /// <summary>
         /// The money the player has.
         /// </summary>
-        public Bank Bank { get; }
+        private Bank Bank { get; }
 
         /// <summary>
         /// The value of the current player's hand..
@@ -45,6 +66,13 @@ namespace NiuNiu.Library
         /// How much money the player has.
         /// </summary>
         public int Money => Bank.Balance;
+
+        public bool Equals(Player other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id;
+        }
 
         /// <summary>
         /// Give money to a receiver.
@@ -63,6 +91,19 @@ namespace NiuNiu.Library
         public void ReceiveMoney(int amount)
         {
             Bank.Deposit(amount);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Player)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
 
         /// <summary>

@@ -4,19 +4,16 @@ using System.Linq;
 namespace NiuNiu.Library
 {
     /// <summary>
-    /// A dealer controls the flow of the deck for the current game.
+    /// A dealer is a <see cref="Player" /> of the game who controls the flow of the deck for the current round.
     /// </summary>
-    public class Dealer : IMoneyReceiver, IMoneyGiver
+    public class Dealer : Player
     {
-        private readonly Bank bank;
         private readonly Deck deck;
         private List<Card> splitTopHalfOfDeck;
 
-        public Dealer(Player player)
+        public Dealer(Player player) : base(player)
         {
             deck = new Deck();
-            Player = player;
-            bank = player.Bank;
         }
 
         /// <summary>
@@ -24,37 +21,10 @@ namespace NiuNiu.Library
         /// </summary>
         public bool HasSplitDeck => splitTopHalfOfDeck != null && splitTopHalfOfDeck.Any();
 
-        public Player Player { get; }
-
         /// <summary>
         /// Number of times the dealer has dealt cards.
         /// </summary>
         public int TimesDealt { get; private set; }
-
-        /// <summary>
-        /// Give money to a receiver.
-        /// </summary>
-        /// <param name="receiver">The receiver to give money to.</param>
-        /// <param name="amount">The amount to give.</param>
-        public void GiveMoney(IMoneyReceiver receiver, int amount)
-        {
-            bank.Withdraw(receiver, amount);
-        }
-
-        public void ReceiveMoney(int amount)
-        {
-            bank.Deposit(amount);
-        }
-
-        /// <summary>
-        /// Whether the dealer should take the current pot.
-        /// </summary>
-        /// <param name="potValue">The current pot value.</param>
-        /// <returns>Whether the dealer should take the pot.</returns>
-        public bool ShouldTakePot(int potValue)
-        {
-            return Player.ShouldTakePot(potValue);
-        }
 
         public void TakeHandFromPlayer(Player player)
         {

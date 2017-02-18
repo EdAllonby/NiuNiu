@@ -42,7 +42,7 @@
         /// <param name="dealer">The dealer to give pot amount to.</param>
         public void GiveToDealer(Dealer dealer)
         {
-            GiveMoney(dealer.Player, pot.Balance);
+            GiveMoney(dealer, pot.Balance);
         }
     }
 }
