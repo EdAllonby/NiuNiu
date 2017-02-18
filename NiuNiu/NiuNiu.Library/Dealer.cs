@@ -6,7 +6,7 @@ namespace NiuNiu.Library
     /// <summary>
     /// A dealer is a <see cref="Player" /> of the game who controls the flow of the deck for the current round.
     /// </summary>
-    public class Dealer : Player
+    public sealed class Dealer : Player
     {
         private readonly Deck deck;
         private List<Card> splitTopHalfOfDeck;
@@ -37,8 +37,14 @@ namespace NiuNiu.Library
             splitTopHalfOfDeck = deck.TakeTopHalfOfCardsByRandomSplit();
         }
 
+        /// <summary>
+        /// Deal cards around the table for a new round.
+        /// </summary>
+        /// <param name="players">The players to deal cards to.</param>
+        /// <param name="cardsPerPlayer">The cards to deal per player.</param>
         public void DealCards(List<Player> players, int cardsPerPlayer)
         {
+            // We want to capture how many times this dealer has dealt cards because there are some game rules around this number.
             TimesDealt++;
 
             Player firstPlayer = GetFirstPlayer(players);

@@ -41,6 +41,7 @@ namespace NiuNiu.Library
             PlaceBets();
             dealer.DealCards(players, GameRules.CardsPerHand);
             DealMoney();
+            TakeHandFromPlayers();
 
             if (!pot.HasMoney)
             {
@@ -85,25 +86,25 @@ namespace NiuNiu.Library
 
         private void DealMoney()
         {
-            List<Player> playersOrderedByHand = players.OrderByDescending(player => player.HandValue).ToList();
+            HandValue dealerHand = dealer.HandValue;
 
-            int dealerRank = playersOrderedByHand.IndexOf(dealer);
-
-            foreach (Player player in playersOrderedByHand)
+            // Players who have lost pays the dealer first.
+            foreach (Player player in players.Where(player => player.HandValue < dealerHand))
             {
-                int playerRank = playersOrderedByHand.IndexOf(player);
+                payout.Payout(dealer.HandValue, player.LastBet, player, pot);
+            }
 
-                if (playerRank < dealerRank)
-                {
-                    // Player had a better hand than the dealer. Give the correct amount from the current pot.
-                    payout.Payout(player.HandValue, player.LastBet, pot, player);
-                }
-                else if (playerRank > dealerRank)
-                {
-                    // The dealer has won. Add money to the pot from losing player.
-                    payout.Payout(dealer.HandValue, player.LastBet, player, pot);
-                }
+            // Then players who have higher hand value than the dealer get paid. The order in which players get paid out is by their hand value.
+            foreach (Player player in players.OrderByDescending(player => player.HandValue).Where(player => player.HandValue > dealerHand))
+            {
+                payout.Payout(player.HandValue, player.LastBet, pot, player);
+            }
+        }
 
+        private void TakeHandFromPlayers()
+        {
+            foreach (Player player in players)
+            {
                 dealer.TakeHandFromPlayer(player);
             }
         }
@@ -115,6 +116,7 @@ namespace NiuNiu.Library
                 : players.NextInLoop(dealer); // Otherwise, go around the table to the next player.
 
             dealer = new Dealer(newDealer);
+            players.Replace(newDealer, dealer);
             dealer.GiveMoney(pot, GameRules.PotSize);
         }
     }

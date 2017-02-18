@@ -9,6 +9,22 @@ namespace NiuNiu.Library
     /// </summary>
     public static class ListExtensions
     {
+        public static int Replace<TElement>(this IList<TElement> source, TElement oldValue, TElement newValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            int index = source.IndexOf(oldValue);
+            if (index != -1)
+            {
+                source[index] = newValue;
+            }
+
+            return index;
+        }
+
         /// <summary>
         /// Pick a random element from an enumerable.
         /// </summary>

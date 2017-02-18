@@ -107,6 +107,30 @@ namespace NiuNiu.Library
                 : $"Result does not have a triple, highest single card is {HighestCard}";
         }
 
+        public static bool operator <(HandValue left, HandValue right)
+        {
+            return Compare(left, right) < 0;
+        }
+
+        public static bool operator >(HandValue left, HandValue right)
+        {
+            return Compare(left, right) > 0;
+        }
+
+        private static int Compare(HandValue left, HandValue right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return 0;
+            }
+            if (ReferenceEquals(left, null))
+            {
+                return -1;
+            }
+            return left.CompareTo(right);
+        }
+
+
         private IEnumerable<Card> CardsOutsideTriple()
         {
             return hand.Cards.Where(card1 => handTriple.All(card2 => !Equals(card2, card1)));
