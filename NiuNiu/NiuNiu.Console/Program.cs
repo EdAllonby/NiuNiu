@@ -9,7 +9,15 @@ namespace NiuNiu.Console
         {
             const int startingMoney = 1000;
 
-            var players = new List<Player> { new Player("Ed", startingMoney), new Player("Nige", startingMoney), new Player("Steve", startingMoney), new Player("John", startingMoney) };
+            var gamblingStrategy = new DefaultGamblingStrategy();
+
+            var players = new List<Player>
+            {
+                new Player("Ed", startingMoney, gamblingStrategy),
+                new Player("Nige", startingMoney, gamblingStrategy),
+                new Player("Steve", startingMoney, gamblingStrategy),
+                new Player("John", startingMoney, gamblingStrategy)
+            };
 
             var niuniu = new Game(players);
 

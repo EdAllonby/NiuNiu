@@ -10,7 +10,17 @@ namespace NiuNiu.Library.Tests
         [Test]
         public void AfterGameEndNoMoneyShouldBeMissing()
         {
-            var players = new List<Player> { new Player("Ed", 1000), new Player("Steve", 1000), new Player("Terry", 1000), new Player("Nige", 1000) };
+            var gamblingStrategy = new DefaultGamblingStrategy();
+
+            const int startingMoney = 1000;
+
+            var players = new List<Player>
+            {
+                new Player("Ed", startingMoney, gamblingStrategy),
+                new Player("Nige", startingMoney, gamblingStrategy),
+                new Player("Steve", startingMoney, gamblingStrategy),
+                new Player("John", startingMoney, gamblingStrategy)
+            };
 
             var niuniu = new Game(players);
             while (niuniu.IsInProgress)

@@ -19,6 +19,9 @@ namespace NiuNiu.Library
             bank = player.Bank;
         }
 
+        /// <summary>
+        /// Determines if the dealer has already split the deck into 2 parts.
+        /// </summary>
         public bool HasSplitDeck => splitTopHalfOfDeck != null && splitTopHalfOfDeck.Any();
 
         public Player Player { get; }
@@ -28,6 +31,11 @@ namespace NiuNiu.Library
         /// </summary>
         public int TimesDealt { get; private set; }
 
+        /// <summary>
+        /// Give money to a receiver.
+        /// </summary>
+        /// <param name="receiver">The receiver to give money to.</param>
+        /// <param name="amount">The amount to give.</param>
         public void GiveMoney(IMoneyReceiver receiver, int amount)
         {
             bank.Withdraw(receiver, amount);
@@ -93,7 +101,7 @@ namespace NiuNiu.Library
             deck.Shuffle();
         }
 
-        private Player GetFirstPlayer(List<Player> players)
+        private Player GetFirstPlayer(IList<Player> players)
         {
             SplitDeck();
             Card bottomCard = ShowBottomOfSplitDeck();

@@ -10,22 +10,24 @@ namespace NiuNiu.Library
     {
         private readonly HandSolver brain = new HandSolver();
 
-        private readonly IGamblingStrategy gamblingStrategy = new DefaultGamblingStrategy();
+        private readonly IGamblingStrategy gamblingStrategy;
 
         private readonly Hand hand = new Hand();
 
         /// <summary>
         /// Creates a new NiuNiu player with some money.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="money"></param>
-        public Player(string name, int money)
+        /// <param name="name">The name of the player.</param>
+        /// <param name="money">The initial money this player has.</param>
+        /// <param name="strategy">The gambling strategy this player should use.</param>
+        public Player(string name, int money, IGamblingStrategy strategy)
         {
             Name = name;
             Bank = new Bank(money);
+            gamblingStrategy = strategy;
         }
 
-        public string Name { get; set; }
+        private string Name { get; }
 
         public int LastBet { get; private set; }
 
@@ -43,11 +45,6 @@ namespace NiuNiu.Library
         /// How much money the player has.
         /// </summary>
         public int Money => Bank.Balance;
-
-        /// <summary>
-        /// Show the current hand of the player.
-        /// </summary>
-        public IEnumerable<Card> ShowHand => hand.Cards;
 
         /// <summary>
         /// Give money to a receiver.
@@ -77,11 +74,20 @@ namespace NiuNiu.Library
             hand.AddCard(card);
         }
 
+        /// <summary>
+        /// If the player should take the pot at its current value.
+        /// </summary>
+        /// <param name="potValue">The current value of the pot.</param>
+        /// <returns>If the player should take the pot at its current value.</returns>
         public bool ShouldTakePot(int potValue)
         {
             return gamblingStrategy.ShouldTakePot(potValue);
         }
 
+        /// <summary>
+        /// Place a bet in the current pot.
+        /// </summary>
+        /// <param name="pot">The pot to place a bet.</param>
         public void PlaceBet(Pot pot)
         {
             int currentBet = gamblingStrategy.CurrentBet;

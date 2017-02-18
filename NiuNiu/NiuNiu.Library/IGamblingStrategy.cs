@@ -13,8 +13,8 @@
         /// <summary>
         /// Should the current pot value be taken?
         /// </summary>
-        /// <param name="value">The value of the pot.</param>
+        /// <param name="potValue">The value of the pot.</param>
         /// <returns>If it should be taken.</returns>
-        bool ShouldTakePot(int value);
+        bool ShouldTakePot(int potValue);
     }
 }
