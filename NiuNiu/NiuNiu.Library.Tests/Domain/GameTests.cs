@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NiuNiu.Library.Domain;
 using NiuNiu.Library.Gambling;
+using NUnit.Framework;
 
-namespace NiuNiu.Console
+namespace NiuNiu.Library.Tests.Domain
 {
-    internal class Program
+    [TestFixture]
+    internal class GameTests
     {
-        private static void Main(string[] args)
+        [Test]
+        public void AfterGameEndNoMoneyShouldBeMissing()
         {
-            const int startingMoney = 1000;
-
             var gamblingStrategy = new DefaultGamblingStrategy();
+
+            const int startingMoney = 1000;
 
             var players = new List<Player>
             {
@@ -21,15 +25,12 @@ namespace NiuNiu.Console
             };
 
             var niuniu = new Game(players);
-
             while (niuniu.IsInProgress)
             {
                 niuniu.PlayRound();
             }
 
-            int totalRounds = niuniu.Round;
-
-            System.Console.WriteLine($"Total rounds played: {totalRounds}");
+            Assert.AreEqual(4000, players.Sum(x => x.Money));
         }
     }
 }
