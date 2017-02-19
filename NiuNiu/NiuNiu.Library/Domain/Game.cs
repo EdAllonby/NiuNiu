@@ -119,7 +119,7 @@ namespace NiuNiu.Library.Domain
                 : players.NextInLoop(dealer); // Otherwise, go around the table to the next player.
 
             dealer = new Dealer(newDealer);
-            players.Replace(newDealer, dealer);
+            players.ReplaceFirstOccurrence(newDealer, dealer);
             dealer.GiveMoney(pot, GameRules.PotSize);
         }
     }

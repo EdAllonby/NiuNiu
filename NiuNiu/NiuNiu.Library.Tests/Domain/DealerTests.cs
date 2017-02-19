@@ -17,6 +17,14 @@ namespace NiuNiu.Library.Tests.Domain
         }
 
         [Test]
+        public void IfDealerHasNotSplitDeckDoNotDoAnything()
+        {
+            var dealer = new Dealer(new Player("Steve", 1000, new DefaultGamblingStrategy()));
+            dealer.PutSplitTopHalfOnBottomOfDeck();
+            Assert.IsFalse(dealer.HasSplitDeck);
+        }
+
+        [Test]
         public void PuttingSplitBackOntoDeckRemovesDealerSplit()
         {
             var dealer = new Dealer(new Player("Steve", 1000, new DefaultGamblingStrategy()));

@@ -62,6 +62,8 @@
     <Compile Include="Domain\CardTests.cs" />
     <Compile Include="Domain\DealerTests.cs" />
     <Compile Include="Domain\DeckTests.cs" />
+    <Compile Include="Utility\ComparableExtensionTests.cs" />
+    <Compile Include="Utility\ListExtensionTests.cs" />
     <Compile Include="Utility\EnumExtensionTests.cs" />
     <Compile Include="Domain\PlayerTests.cs" />
     <Compile Include="Domain\GameTests.cs" />

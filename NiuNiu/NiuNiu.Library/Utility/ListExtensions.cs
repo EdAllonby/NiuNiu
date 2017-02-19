@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace NiuNiu.Library.Utility
 {
@@ -9,7 +10,14 @@ namespace NiuNiu.Library.Utility
     /// </summary>
     public static class ListExtensions
     {
-        public static int Replace<TElement>(this IList<TElement> source, TElement oldValue, TElement newValue)
+        /// <summary>
+        /// Replaces a value in a List with a new one.
+        /// </summary>
+        /// <typeparam name="TElement">The type of list.</typeparam>
+        /// <param name="source">The list to replace a value.</param>
+        /// <param name="oldValue">The old value to replace.</param>
+        /// <param name="newValue">The replacement value.</param>
+        public static void ReplaceFirstOccurrence<TElement>([NotNull] this IList<TElement> source, TElement oldValue, TElement newValue)
         {
             if (source == null)
             {
@@ -21,8 +29,6 @@ namespace NiuNiu.Library.Utility
             {
                 source[index] = newValue;
             }
-
-            return index;
         }
 
         /// <summary>
