@@ -11,7 +11,7 @@ namespace NiuNiu.Library.Utility
         private static readonly Random Random = new Random();
 
         /// <summary>
-        /// Shuffle the array.
+        /// Shuffle the list.
         /// </summary>
         /// <typeparam name="T">Array element type.</typeparam>
         /// <param name="array">Array to shuffle.</param>

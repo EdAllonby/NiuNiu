@@ -10,26 +10,29 @@ namespace NiuNiu.Console
         {
             const int startingMoney = 1000;
 
-            var gamblingStrategy = new DefaultGamblingStrategy();
-
-            var players = new List<Player>
+            while (true)
             {
-                new Player("Ed", startingMoney, gamblingStrategy),
-                new Player("Nige", startingMoney, gamblingStrategy),
-                new Player("Steve", startingMoney, gamblingStrategy),
-                new Player("John", startingMoney, gamblingStrategy)
-            };
+                var gamblingStrategy = new DefaultGamblingStrategy();
 
-            var niuniu = new Game(players);
+                var players = new List<Player>
+                {
+                    new Player("Ed", startingMoney, gamblingStrategy),
+                    new Player("Nige", startingMoney, gamblingStrategy),
+                    new Player("Steve", startingMoney, gamblingStrategy),
+                    new Player("John", startingMoney, gamblingStrategy)
+                };
 
-            while (niuniu.IsInProgress)
-            {
-                niuniu.PlayRound();
+                var niuniu = new Game(players);
+                
+                while (niuniu.IsInProgress)
+                {
+                    niuniu.PlayRound();
+                }
+
+                int totalRounds = niuniu.Round;
+
+                System.Console.WriteLine($"{niuniu.CurrentBest} won in {totalRounds} rounds.");
             }
-
-            int totalRounds = niuniu.Round;
-
-            System.Console.WriteLine($"Total rounds played: {totalRounds}");
         }
     }
 }

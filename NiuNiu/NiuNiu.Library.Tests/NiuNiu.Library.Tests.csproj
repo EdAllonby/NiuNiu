@@ -62,6 +62,7 @@
     <Compile Include="Domain\CardTests.cs" />
     <Compile Include="Domain\DealerTests.cs" />
     <Compile Include="Domain\DeckTests.cs" />
+    <Compile Include="Gambling\StandardPayoutTests.cs" />
     <Compile Include="Utility\ComparableExtensionTests.cs" />
     <Compile Include="Utility\ListExtensionTests.cs" />
     <Compile Include="Utility\EnumExtensionTests.cs" />

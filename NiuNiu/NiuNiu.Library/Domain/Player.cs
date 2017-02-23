@@ -9,7 +9,7 @@ namespace NiuNiu.Library.Domain
     /// <summary>
     /// A player of NiuNiu.
     /// </summary>
-    public class Player : IMoneyReceiver, IMoneyGiver, IEquatable<Player>
+    public class Player : ICardHandler, IMoneyReceiver, IMoneyGiver, IEquatable<Player>
     {
         private static int nextId = 1;
         private readonly HandSolver brain = new HandSolver();
@@ -142,7 +142,7 @@ namespace NiuNiu.Library.Domain
         /// Give back all of the cards in the player's hand.
         /// </summary>
         /// <returns>The cards to give back.</returns>
-        public IEnumerable<Card> ReturnAllCardsInHand()
+        public IEnumerable<Card> ReturnCards()
         {
             List<Card> playerHand = hand.Cards.ToList();
             hand.EmptyHand();

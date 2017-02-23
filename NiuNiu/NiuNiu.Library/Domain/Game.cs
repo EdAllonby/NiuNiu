@@ -22,6 +22,8 @@ namespace NiuNiu.Library.Domain
             AssignNewDealer();
         }
 
+        public Player CurrentBest => players.OrderByDescending(x => x.Money).First();
+
         /// <summary>
         /// Total rounds played in this game.
         /// </summary>
@@ -40,11 +42,11 @@ namespace NiuNiu.Library.Domain
             Round++;
 
             dealer.Shuffle();
-            dealer.SplitDeckShuffle();
+            dealer.CutDeck();
             PlaceBets();
-            dealer.DealCards(players, GameRules.CardsPerHand);
+            dealer.DealCards(players.ToList<ICardHandler>(), GameRules.CardsPerHand);
             DealMoney();
-            TakeHandFromPlayers();
+            dealer.TakeHandFromPlayers(players);
 
             if (!pot.HasMoney)
             {
@@ -101,14 +103,6 @@ namespace NiuNiu.Library.Domain
             foreach (Player player in players.OrderByDescending(player => player.HandValue).Where(player => player.HandValue > dealerHand))
             {
                 payout.Payout(player.HandValue, player.LastBet, pot, player);
-            }
-        }
-
-        private void TakeHandFromPlayers()
-        {
-            foreach (Player player in players)
-            {
-                dealer.TakeHandFromPlayer(player);
             }
         }
 

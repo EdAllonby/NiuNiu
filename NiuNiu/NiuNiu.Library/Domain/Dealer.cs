@@ -27,10 +27,13 @@ namespace NiuNiu.Library.Domain
         /// </summary>
         public int TimesDealt { get; private set; }
 
-        public void TakeHandFromPlayer(Player player)
+        public void TakeHandFromPlayers(IEnumerable<ICardHandler> players)
         {
-            IEnumerable<Card> playerHand = player.ReturnAllCardsInHand();
-            deck.AddHandToDeck(playerHand);
+            foreach (ICardHandler player in players)
+            {
+                IEnumerable<Card> playerHand = player.ReturnCards();
+                deck.AddHandToDeck(playerHand);
+            }
         }
 
         public void SplitDeck()
@@ -43,14 +46,14 @@ namespace NiuNiu.Library.Domain
         /// </summary>
         /// <param name="players">The players to deal cards to.</param>
         /// <param name="cardsPerPlayer">The cards to deal per player.</param>
-        public void DealCards(List<Player> players, int cardsPerPlayer)
+        public void DealCards(IList<ICardHandler> players, int cardsPerPlayer)
         {
             // We want to capture how many times this dealer has dealt cards because there are some game rules around this number.
             TimesDealt++;
 
-            Player firstPlayer = GetFirstPlayer(players);
+            ICardHandler firstPlayer = GetFirstPlayer(players);
 
-            foreach (Player player in players.Cycle(firstPlayer).Take(cardsPerPlayer * players.Count))
+            foreach (ICardHandler player in players.CycleTo(firstPlayer, cardsPerPlayer * players.Count))
             {
                 player.ReceiveCard(deck.TakeCard());
             }
@@ -67,7 +70,7 @@ namespace NiuNiu.Library.Domain
             splitTopHalfOfDeck.Clear();
         }
 
-        public void SplitDeckShuffle()
+        public void CutDeck()
         {
             SplitDeck();
             PutSplitTopHalfOnBottomOfDeck();
@@ -78,12 +81,12 @@ namespace NiuNiu.Library.Domain
             deck.Shuffle();
         }
 
-        private Player GetFirstPlayer(IList<Player> players)
+        private ICardHandler GetFirstPlayer(IList<ICardHandler> players)
         {
             SplitDeck();
             Card bottomCard = ShowBottomOfSplitDeck();
             var faceValue = (int) bottomCard.Face;
-            Player player = players.ElementAtLoopedIndex(faceValue);
+            ICardHandler player = players.ElementAtLoopedIndex(faceValue);
             PutSplitTopHalfOnBottomOfDeck();
 
             return player;

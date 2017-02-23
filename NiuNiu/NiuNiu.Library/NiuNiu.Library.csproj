@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="Domain\Bank.cs" />
     <Compile Include="Domain\Card.cs" />
+    <Compile Include="Domain\ICardHandler.cs" />
+    <Compile Include="Gambling\GreedyGamblingStrategy.cs" />
     <Compile Include="Utility\ComparableExtensions.cs" />
     <Compile Include="Domain\Dealer.cs" />
     <Compile Include="Domain\Deck.cs" />

@@ -46,7 +46,7 @@ namespace NiuNiu.Library.Tests.Domain
         }
 
         [Test]
-        public void CardCanHaveAValue()
+        public void CardCanHaveAFace()
         {
             const Face expectedValue = Face.Eight;
 

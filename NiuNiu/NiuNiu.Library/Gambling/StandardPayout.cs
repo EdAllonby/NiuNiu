@@ -17,46 +17,45 @@ namespace NiuNiu.Library.Gambling
         public void Payout(IPayoutValue handValue, int lastBet, IMoneyGiver giver, IMoneyReceiver receiver)
         {
             int payoutMultiplier = GetPayoutMultiplier(handValue);
-            giver.GiveMoney(receiver, lastBet * payoutMultiplier);
+            giver.GiveMoney(receiver, lastBet + (lastBet * payoutMultiplier));
         }
 
         private static int GetPayoutMultiplier(IPayoutValue handValue)
         {
-            var multiplier = 1;
-
-            if (IsHighCard(handValue))
-            {
-                return multiplier;
-            }
             if (IsUltimate(handValue))
             {
-                multiplier = 5;
+                return 5;
             }
             if (IsNiuNiu(handValue))
             {
-                multiplier = 3;
+                return 3;
             }
             if (IsBigPoint(handValue))
             {
-                multiplier = 2;
+                return 2;
+            }
+            if (IsTriple(handValue))
+            {
+                return 1;
             }
 
-            return multiplier;
+            // No notable hand, no multiplier.
+            return 0;
+        }
+
+        private static bool IsTriple(IPayoutValue handValue)
+        {
+            return handValue.HasTriple;
         }
 
         private static bool IsBigPoint(IPayoutValue handValue)
         {
-            return handValue.HighestCardFace >= Face.Seven && handValue.HighestCardFace <= Face.Nine;
+            return IsTriple(handValue) && handValue.HighestCardFace >= Face.Seven && handValue.HighestCardFace <= Face.Nine;
         }
 
         private static bool IsNiuNiu(IPayoutValue handValue)
         {
-            return handValue.HighestCardFace >= Face.Ten && handValue.HighestCardFace <= Face.King;
-        }
-
-        private static bool IsHighCard(IPayoutValue handValue)
-        {
-            return !handValue.HasTriple;
+            return IsTriple(handValue) && handValue.HighestCardFace >= Face.Ten && handValue.HighestCardFace <= Face.King;
         }
 
         private static bool IsUltimate(IPayoutValue handValue)

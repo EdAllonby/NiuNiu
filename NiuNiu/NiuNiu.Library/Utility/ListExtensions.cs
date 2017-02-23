@@ -48,16 +48,20 @@ namespace NiuNiu.Library.Utility
         /// <typeparam name="TElement">The element type to cycle.</typeparam>
         /// <param name="list">The collection to cycle.</param>
         /// <param name="startingElement">Which element in the collection to start the cycle at.</param>
+        /// <param name="passes">The maximum elements to enumerate.</param>
         /// <returns>An enumerable that will cycle.</returns>
-        public static IEnumerable<TElement> Cycle<TElement>(this IList<TElement> list, TElement startingElement)
+        public static IEnumerable<TElement> CycleTo<TElement>(this IList<TElement> list, TElement startingElement, int passes)
         {
-            while (true)
+            yield return startingElement;
+
+            var currentYields = 1;
+
+            while (currentYields < passes)
             {
                 startingElement = NextInLoop(list, startingElement);
                 yield return startingElement;
+                currentYields++;
             }
-            // This enumerates an ienumerable.
-            // ReSharper disable once IteratorNeverReturns
         }
 
         /// <summary>
