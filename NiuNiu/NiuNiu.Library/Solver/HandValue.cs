@@ -12,14 +12,14 @@ namespace NiuNiu.Library.Solver
     public sealed class HandValue : IPayoutValue, IComparable<HandValue>, IComparable
     {
         private readonly Hand hand;
-        private readonly IEnumerable<Card> handTriple;
+        private readonly Hand handTriple;
 
         /// <summary>
         /// A hand which has a triple.
         /// </summary>
         /// <param name="hand">The hand.</param>
         /// <param name="handTriple">The hand's triple.</param>
-        public HandValue(Hand hand, IEnumerable<Card> handTriple)
+        public HandValue(Hand hand, Hand handTriple)
         {
             this.hand = hand;
             this.handTriple = handTriple;
@@ -29,7 +29,7 @@ namespace NiuNiu.Library.Solver
         /// A hand without a triple.
         /// </summary>
         /// <param name="hand">The hand.</param>
-        public HandValue(Hand hand) : this(hand, new List<Card>())
+        public HandValue(Hand hand) : this(hand, new Hand())
         {
         }
 
@@ -98,7 +98,7 @@ namespace NiuNiu.Library.Solver
         /// <summary>
         /// Returns if the result has a triple.
         /// </summary>
-        public bool HasTriple => handTriple != null && handTriple.Count() == 3;
+        public bool HasTriple => handTriple != null && handTriple.Count == 3;
 
         public bool IsUltimate => hand.Cards.All(x => x.IsFaceCard);
 

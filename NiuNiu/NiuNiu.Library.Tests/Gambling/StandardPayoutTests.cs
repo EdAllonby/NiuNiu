@@ -8,14 +8,38 @@ namespace NiuNiu.Library.Tests.Gambling
     [TestFixture]
     public sealed class StandardPayoutTests
     {
+        private static void PayoutTest(IMock<IPayoutValue> highCardMock, int lastBet, int expectedPayout)
+        {
+            var payout = new StandardPayout();
+
+            var giverMock = new Mock<IMoneyGiver>();
+            var receiverMock = new Mock<IMoneyReceiver>();
+
+            payout.Payout(highCardMock.Object, lastBet, giverMock.Object, receiverMock.Object);
+
+            giverMock.Verify(x => x.GiveMoney(receiverMock.Object, expectedPayout));
+        }
+
         [Test]
-        public void UltimateHandTest()
+        public void BigPointHandTest()
         {
             const int lastBet = 1;
-            const int expectedPayout = 6;
+            const int expectedPayout = 3;
             var highCardMock = new Mock<IPayoutValue>();
             highCardMock.Setup(x => x.HasTriple).Returns(true);
-            highCardMock.Setup(x => x.IsUltimate).Returns(true);
+            highCardMock.Setup(x => x.IsUltimate).Returns(false);
+            highCardMock.Setup(x => x.HighestCardFace).Returns(Face.Eight);
+
+            PayoutTest(highCardMock, lastBet, expectedPayout);
+        }
+
+        [Test]
+        public void HighCardTest()
+        {
+            const int lastBet = 1;
+            const int expectedPayout = 1;
+            var highCardMock = new Mock<IPayoutValue>();
+            highCardMock.Setup(x => x.HasTriple).Returns(false);
 
             PayoutTest(highCardMock, lastBet, expectedPayout);
         }
@@ -34,19 +58,6 @@ namespace NiuNiu.Library.Tests.Gambling
         }
 
         [Test]
-        public void BigPointHandTest()
-        {
-            const int lastBet = 1;
-            const int expectedPayout = 3;
-            var highCardMock = new Mock<IPayoutValue>();
-            highCardMock.Setup(x => x.HasTriple).Returns(true);
-            highCardMock.Setup(x => x.IsUltimate).Returns(false);
-            highCardMock.Setup(x => x.HighestCardFace).Returns(Face.Eight);
-
-            PayoutTest(highCardMock, lastBet, expectedPayout);
-        }
-        
-        [Test]
         public void TripleHandTest()
         {
             const int lastBet = 1;
@@ -60,26 +71,15 @@ namespace NiuNiu.Library.Tests.Gambling
         }
 
         [Test]
-        public void HighCardTest()
+        public void UltimateHandTest()
         {
             const int lastBet = 1;
-            const int expectedPayout = 1;
+            const int expectedPayout = 6;
             var highCardMock = new Mock<IPayoutValue>();
-            highCardMock.Setup(x => x.HasTriple).Returns(false);
+            highCardMock.Setup(x => x.HasTriple).Returns(true);
+            highCardMock.Setup(x => x.IsUltimate).Returns(true);
 
             PayoutTest(highCardMock, lastBet, expectedPayout);
-        }
-
-        private static void PayoutTest(IMock<IPayoutValue> highCardMock, int lastBet, int expectedPayout)
-        {
-            var payout = new StandardPayout();
-
-            var giverMock = new Mock<IMoneyGiver>();
-            var receiverMock = new Mock<IMoneyReceiver>();
-            
-            payout.Payout(highCardMock.Object, lastBet, giverMock.Object, receiverMock.Object);
-
-            giverMock.Verify(x => x.GiveMoney(receiverMock.Object, expectedPayout));
         }
     }
 }

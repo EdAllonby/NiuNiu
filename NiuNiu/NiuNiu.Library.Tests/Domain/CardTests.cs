@@ -36,16 +36,6 @@ namespace NiuNiu.Library.Tests.Domain
         }
 
         [Test]
-        public void CardCanHaveASuit()
-        {
-            const Suit expectedSuit = Suit.Clubs;
-
-            var card = new Card(Face.Ace, expectedSuit);
-
-            Assert.AreEqual(Suit.Clubs, card.Suit);
-        }
-
-        [Test]
         public void CardCanHaveAFace()
         {
             const Face expectedValue = Face.Eight;
@@ -53,6 +43,16 @@ namespace NiuNiu.Library.Tests.Domain
             var card = new Card(expectedValue, Suit.Hearts);
 
             Assert.AreEqual(expectedValue, card.Face);
+        }
+
+        [Test]
+        public void CardCanHaveASuit()
+        {
+            const Suit expectedSuit = Suit.Clubs;
+
+            var card = new Card(Face.Ace, expectedSuit);
+
+            Assert.AreEqual(Suit.Clubs, card.Suit);
         }
 
         [Test]

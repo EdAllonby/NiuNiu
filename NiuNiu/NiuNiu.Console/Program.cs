@@ -23,7 +23,7 @@ namespace NiuNiu.Console
                 };
 
                 var niuniu = new Game(players);
-                
+
                 while (niuniu.IsInProgress)
                 {
                     niuniu.PlayRound();

@@ -9,36 +9,6 @@ namespace NiuNiu.Library.Tests.Utility
     [TestFixture]
     public class ListExtensionTests
     {
-        [Test]
-        public void ReplaceElementInListShouldReplace()
-        {
-            var list = new List<int> { 1, 2, 3, 4 };
-            var expectedList = new List<int> { 1, 3, 3, 4 };
-
-            list.ReplaceFirstOccurrence(2, 3);
-
-            CollectionAssert.AreEqual(expectedList, list);
-        }
-
-        [Test]
-        public void ReplaceElementOnlyReplacesFirstOccurrence()
-        {
-            var list = new List<int> { 1, 2, 2, 4 };
-            var expectedList = new List<int> { 1, 3, 2, 4 };
-
-            list.ReplaceFirstOccurrence(2, 3);
-
-            CollectionAssert.AreEqual(expectedList, list);
-        }
-
-        [Test]
-        public void ItemInPickRandomReturnsItemInList()
-        {
-            var list = new List<int> { 1, 2, 3, 4, 5 };
-            int item = list.PickRandom();
-            Assert.Contains(item, list);
-        }
-
         [TestCase(1, 2, 1, ExpectedResult = 2)]
         [TestCase(1, 2, 2, ExpectedResult = 1)]
         public int NextInLoopGetsNextItem(int firstItem, int secondItem, int current)
@@ -65,6 +35,36 @@ namespace NiuNiu.Library.Tests.Utility
 
             Assert.That(actualList, Has.Count.EqualTo(totalPasses));
             CollectionAssert.AreEqual(expectedList, actualList);
+        }
+
+        [Test]
+        public void ItemInPickRandomReturnsItemInList()
+        {
+            var list = new List<int> { 1, 2, 3, 4, 5 };
+            int item = list.PickRandom();
+            Assert.Contains(item, list);
+        }
+
+        [Test]
+        public void ReplaceElementInListShouldReplace()
+        {
+            var list = new List<int> { 1, 2, 3, 4 };
+            var expectedList = new List<int> { 1, 3, 3, 4 };
+
+            list.ReplaceFirstOccurrence(2, 3);
+
+            CollectionAssert.AreEqual(expectedList, list);
+        }
+
+        [Test]
+        public void ReplaceElementOnlyReplacesFirstOccurrence()
+        {
+            var list = new List<int> { 1, 2, 2, 4 };
+            var expectedList = new List<int> { 1, 3, 2, 4 };
+
+            list.ReplaceFirstOccurrence(2, 3);
+
+            CollectionAssert.AreEqual(expectedList, list);
         }
 
         [Test]

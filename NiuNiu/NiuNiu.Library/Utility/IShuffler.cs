@@ -2,7 +2,6 @@
 
 namespace NiuNiu.Library.Utility
 {
-
     /// <summary>
     /// A shuffler for a list.
     /// </summary>

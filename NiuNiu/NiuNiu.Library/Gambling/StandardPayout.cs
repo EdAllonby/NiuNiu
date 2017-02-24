@@ -17,7 +17,7 @@ namespace NiuNiu.Library.Gambling
         public void Payout(IPayoutValue handValue, int lastBet, IMoneyGiver giver, IMoneyReceiver receiver)
         {
             int payoutMultiplier = GetPayoutMultiplier(handValue);
-            giver.GiveMoney(receiver, lastBet + (lastBet * payoutMultiplier));
+            giver.GiveMoney(receiver, lastBet + lastBet * payoutMultiplier);
         }
 
         private static int GetPayoutMultiplier(IPayoutValue handValue)

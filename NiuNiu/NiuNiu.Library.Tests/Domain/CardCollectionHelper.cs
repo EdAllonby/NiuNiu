@@ -19,6 +19,11 @@ namespace NiuNiu.Library.Tests.Domain
             }
         }
 
-        public static IEnumerable<Card> AllRoyalsTriple => new List<Card> { new Card(Face.King, Suit.Clubs), new Card(Face.King, Suit.Spades), new Card(Face.King, Suit.Diamonds) };
+        public static Hand AllRoyalsTriple => new Hand(new List<Card>
+        {
+            new Card(Face.King, Suit.Clubs),
+            new Card(Face.King, Suit.Spades),
+            new Card(Face.King, Suit.Diamonds)
+        });
     }
 }

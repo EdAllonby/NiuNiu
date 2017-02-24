@@ -9,8 +9,8 @@ namespace NiuNiu.Library.Solver
     /// </summary>
     public class HandSolver
     {
+        private List<HandValue> cardValues;
         private Hand currentHand;
-        private List<HandValue> results;
 
         /// <summary>
         /// Gets the best hand value from a hand.
@@ -20,9 +20,9 @@ namespace NiuNiu.Library.Solver
         public HandValue Solve(Hand hand)
         {
             currentHand = hand;
-            results = new List<HandValue> { new HandValue(currentHand) };
+            cardValues = new List<HandValue> { new HandValue(currentHand) };
             RecursiveSolve(0, new List<Card>(), currentHand.Cards, 0);
-            return results.Max();
+            return cardValues.Max();
         }
 
         private void RecursiveSolve(int currentSum, IReadOnlyCollection<Card> included, IReadOnlyList<Card> notIncluded, int startIndex)
@@ -32,8 +32,9 @@ namespace NiuNiu.Library.Solver
                 Card nextCard = notIncluded[index];
                 if ((currentSum + nextCard.FaceValue) % 10 == 0 && included.Count == 2)
                 {
-                    var newResult = new List<Card>(included) { nextCard };
-                    results.Add(new HandValue(currentHand, newResult));
+                    var leftHand = new Hand(included);
+                    leftHand.AddCard(nextCard);
+                    cardValues.Add(new HandValue(currentHand, leftHand));
                 }
                 else if (included.Count < 3)
                 {

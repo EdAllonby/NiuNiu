@@ -69,6 +69,26 @@ namespace NiuNiu.Library.Domain
         /// </summary>
         public int Money => Bank.Balance;
 
+        /// <summary>
+        /// Receive a card.
+        /// </summary>
+        /// <param name="card">The card received.</param>
+        public void ReceiveCard(Card card)
+        {
+            hand.AddCard(card);
+        }
+
+        /// <summary>
+        /// Give back all of the cards in the player's hand.
+        /// </summary>
+        /// <returns>The cards to give back.</returns>
+        public IEnumerable<Card> ReturnCards()
+        {
+            List<Card> playerHand = hand.Cards.ToList();
+            hand.EmptyHand();
+            return playerHand;
+        }
+
         public bool Equals(Player other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -109,15 +129,6 @@ namespace NiuNiu.Library.Domain
         }
 
         /// <summary>
-        /// Receive a card.
-        /// </summary>
-        /// <param name="card">The card received.</param>
-        public void ReceiveCard(Card card)
-        {
-            hand.AddCard(card);
-        }
-
-        /// <summary>
         /// If the player should take the pot at its current value.
         /// </summary>
         /// <param name="potValue">The current value of the pot.</param>
@@ -136,17 +147,6 @@ namespace NiuNiu.Library.Domain
             int currentBet = gamblingStrategy.CurrentBet;
             LastBet = currentBet;
             GiveMoney(pot, currentBet);
-        }
-
-        /// <summary>
-        /// Give back all of the cards in the player's hand.
-        /// </summary>
-        /// <returns>The cards to give back.</returns>
-        public IEnumerable<Card> ReturnCards()
-        {
-            List<Card> playerHand = hand.Cards.ToList();
-            hand.EmptyHand();
-            return playerHand;
         }
 
         public override string ToString()

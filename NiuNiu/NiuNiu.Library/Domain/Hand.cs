@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NiuNiu.Library.Domain
 {
@@ -9,12 +11,23 @@ namespace NiuNiu.Library.Domain
     {
         private readonly List<Card> cards = new List<Card>();
 
+        public Hand()
+        {
+        }
+
+        public Hand(IEnumerable<Card> cards)
+        {
+            this.cards.AddRange(cards);
+        }
+
         public IReadOnlyList<Card> Cards => cards.AsReadOnly();
 
         /// <summary>
         /// Total cards in this hand.
         /// </summary>
         public int TotalCards => cards.Count;
+
+        public int Count => cards.Count;
 
         /// <summary>
         /// Add a card to the current hand.
@@ -31,6 +44,11 @@ namespace NiuNiu.Library.Domain
         public void EmptyHand()
         {
             cards.Clear();
+        }
+
+        public bool All(Func<object, bool> predicate)
+        {
+            return cards.All(predicate);
         }
     }
 }
