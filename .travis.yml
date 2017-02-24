@@ -1,0 +1,8 @@
+language: csharp
+solution: ./NiuNiu/NiuNiu.sln
+install:
+  - nuget restore ./NiuNiu/NiuNiu.sln
+  - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release ./NiuNiu/NiuNiu.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe ./NiuNiu/NiuNiu.Library.Tests/bin/Release/NiuNiu.Library.Tests.dll
