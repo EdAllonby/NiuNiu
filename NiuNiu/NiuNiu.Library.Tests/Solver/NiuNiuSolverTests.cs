@@ -1,4 +1,5 @@
-﻿using NiuNiu.Library.Domain;
+﻿using System.Configuration;
+using NiuNiu.Library.Domain;
 using NiuNiu.Library.Solver;
 using NiuNiu.Library.Tests.Domain;
 using NUnit.Framework;
@@ -15,6 +16,8 @@ namespace NiuNiu.Library.Tests.Solver
 
             var solver = new HandSolver();
             HandValue values = solver.Solve(hand);
+
+            Assert.IsTrue(values.IsUltimate);
         }
     }
 }
